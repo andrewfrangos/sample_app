@@ -30,6 +30,20 @@ describe "User pages" do
       it "should not create a user" do
         expect { click_button submit }.not_to change(User, :count)
       end
+
+      describe "after submission" do
+        before { click_button submit }
+
+        it { should have_selector('title', text: 'Sign up') }
+        it { should have_content('error') }
+        it { should have_css('#error_explanation', text: 'Name') }
+        #Add count: 1 to the options hash argument of have_selector to test that only one email error appears... redundant to say can't be blank and has wrong format
+        it { should have_selector('div#error_explanation li', text: 'Email') }
+        it { should have_css('#error_explanation', text: 'Password') }
+        it { should have_css('#error_explanation', text: 'Password confirmation') }
+        it { should have_css('.field_with_errors', count: 8) }
+
+      end
     end
 
     describe "with valid information" do
@@ -42,6 +56,14 @@ describe "User pages" do
 
       it "should create a user" do
         expect { click_button submit }.to change(User, :count).by(1)
+      end
+
+      describe "after saving the user" do
+        before { click_button submit }
+        let(:user) { User.find_by_email('user@example.com') }
+
+        it { should have_selector('title', text: user.name) }
+        it { should have_selector('div.alert.alert-success', text: 'Welcome') }
       end
     end
   end

@@ -10,3 +10,24 @@
     </ul>
   </div>
 <% end %>
+
+<!-- This code only allows one error message to show up per field, needs work on password confirmation -->
+<!--   <ul>
+    <% first_email_error=true %>
+    <% first_password_error=true %>
+    <% @user.errors.full_messages.each do |msg| %>
+      <% if msg.include? "Email" %>
+        <% if first_email_error %>
+          <li>* <%= msg %></li>
+          <% first_email_error=false %>
+        <% end %>
+      <% elsif (msg.include? "Password") && !(msg.include? "Password Confirmation") %>
+        <% if first_password_error %>
+          <li>* <%= msg %></li>
+          <% first_password_error=false %>
+        <% end %>
+      <% else %>
+        <li>* <%= msg %></li>
+      <% end %>
+    <% end %>
+  </ul> -->
